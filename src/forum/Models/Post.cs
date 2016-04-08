@@ -8,8 +8,6 @@ namespace forum.Models
 {
     public class Post :Voteable
     {
-        [Key]
-        public int Id { get; set; }
         public string Title { get; set; }
     }
 }

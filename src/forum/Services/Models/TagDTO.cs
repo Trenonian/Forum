@@ -8,8 +8,7 @@ namespace forum.Services.Models
     public class TagDTO
     {
         public int Id { get; set; }
-        public ApplicationUserDTO Creator { get; set; }
-        public ApplicationUserDTO Target { get; set; }
+        public int TargetId { get; set; }
         public string Content { get; set; }
     }
 }

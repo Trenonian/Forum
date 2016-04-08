@@ -12,6 +12,7 @@ namespace forum.Models
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<UserBoard>().HasKey(x => new { x.UserId, x.BoardId });
+            builder.Entity<UserUser>().HasKey(x => new { x.CreatorId, x.TargetId });
             base.OnModelCreating(builder);
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
@@ -23,7 +24,6 @@ namespace forum.Models
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Edit> Edits { get; set; }
         public DbSet<Post> Posts { get; set; }
-        public DbSet<Tag> Tags { get; set; }
         public DbSet<Vote> Votes { get; set; }
     }
 }

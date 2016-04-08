@@ -12,7 +12,7 @@ namespace forum.Models
         public string Signature { get; set; }
         public int PostScore { get; set; }
         public int CommentScore { get; set; }
-        public ICollection<Tag> Tagged { get; set; }
+        public ICollection<UserUser> Tags { get; set; }
         public ICollection<Post> Posts { get; set; }
         public ICollection<Comment> Comments { get; set; }
     }

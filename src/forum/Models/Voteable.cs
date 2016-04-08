@@ -9,6 +9,9 @@ namespace forum.Models
 {
     public abstract class Voteable
     {
+        [Key]
+        public int Id { get; set; }
+
         public int CreatorId { get; set; }
         [ForeignKey("CreatorId")]
         public ApplicationUser Creator { get; set; }

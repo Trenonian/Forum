@@ -9,9 +9,6 @@ namespace forum.Models
 {
     public class Comment : Voteable
     {
-        [Key]
-        public int Id { get; set; }
-
         public int ParentPostId { get; set; }
         [ForeignKey("ParentPostId")]
         public Post ParentPost { get; set; }

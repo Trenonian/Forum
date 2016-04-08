@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace forum.Models
 {
-    public class Tag
+    public class UserUser
     {
         public int Id { get; set; }
 
@@ -18,6 +18,6 @@ namespace forum.Models
         [ForeignKey("TargetId")]
         public ApplicationUser Target { get; set; }
 
-        public string Content { get; set; }
+        public string Tag { get; set; }
     }
 }
