@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNet.Identity;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace forum.Models
 {
@@ -16,35 +17,123 @@ namespace forum.Models
             var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
             context.Database.Migrate();
 
-            // Ensure Stephen (IsAdmin)
-            var stephen = await userManager.FindByNameAsync("Stephen.Walther@CoderCamps.com");
-            if (stephen == null)
+            #region admin
+            var admin = await userManager.FindByNameAsync("admin");
+            if (admin == null)
             {
-                // create user
-                stephen = new ApplicationUser
+                admin = new ApplicationUser
                 {
-                    UserName = "Stephen.Walther@CoderCamps.com",
-                    Email = "Stephen.Walther@CoderCamps.com"
+                    UserName = "admin",
+                    Email = "amon-ra@sbcglobal.net",
+                    Signature = "Adeptus Mechanicus"
+                    
+
                 };
-                await userManager.CreateAsync(stephen, "Secret123!");
-
-                // add claims
-                await userManager.AddClaimAsync(stephen, new Claim("IsAdmin", "true"));
+                await userManager.CreateAsync(admin, "admin");
+                
+                await userManager.AddClaimAsync(admin, new Claim("IsAdmin", "true"));
+                await userManager.AddToRoleAsync(admin, "admin");
             }
+            #endregion
 
-            // Ensure Mike (not IsAdmin)
-            var mike = await userManager.FindByNameAsync("Mike@CoderCamps.com");
-            if (mike == null)
+            #region lumberjack
+            var lumber = await userManager.FindByNameAsync("lumberjack");
+            if (lumber == null)
             {
-                // create user
-                mike = new ApplicationUser
+                lumber = new ApplicationUser
                 {
-                    UserName = "Mike@CoderCamps.com",
-                    Email = "Mike@CoderCamps.com"
+                    UserName = "lumberjack",
+                    Email = "mountainman@fake.com",
+                    Signature = "And my axe!"
                 };
-                await userManager.CreateAsync(mike, "Secret123!");
+                await userManager.CreateAsync(lumber, "sticksandstones");
             }
+            #endregion
 
+            #region flower
+            var flower = await userManager.FindByNameAsync("FlowerPower");
+            if (flower == null)
+            {
+                flower = new ApplicationUser
+                {
+                    UserName = "FlowerPower",
+                    Email = "daisy@fake.com",
+                    Signature = "Flowers are the best."
+                };
+                await userManager.CreateAsync(flower, "weedkiller");
+            }
+            #endregion
+            
+            #region jimmy
+            var jimmy = await userManager.FindByNameAsync("jimmy");
+            if (jimmy == null)
+            {
+                jimmy = new ApplicationUser
+                {
+                    UserName = "jimmy",
+                    Email = "jimmy@fake.com"
+                };
+                await userManager.CreateAsync(jimmy, "john");
+            }
+            #endregion
+            
+            #region samurai
+            var samurai = await userManager.FindByNameAsync("samurai");
+            if (samurai == null)
+            {
+                samurai = new ApplicationUser
+                {
+                    UserName = "samurai",
+                    Email = "blade@fake.com",
+                    Signature = "The perfect sword."
+                };
+                await userManager.CreateAsync(samurai, "ninja");
+            }
+            #endregion
+            
+            #region mary
+            var mary = await userManager.FindByNameAsync("MarySue");
+            if (mary == null)
+            {
+                mary = new ApplicationUser
+                {
+                    UserName = "MarySue",
+                    Email = "protagonist@fake.com",
+                    Signature = "Everything is awesome!"
+                };
+                await userManager.CreateAsync(mary, "chosenOne");
+            }
+            #endregion
+
+            #region user template
+            //#region user
+            //var user = await userManager.FindByNameAsync("");
+            //if (user == null)
+            //{
+            //    user = new ApplicationUser
+            //    {
+            //        UserName = "",
+            //        Email = "@fake.com",
+            //        Signature = ""
+            //    };
+            //    await userManager.CreateAsync(user, "");
+            //}
+            //#endregion
+            #endregion
+
+            context.Boards.AddRange(
+                new Board { Name = "Help" },
+                new Board { Name = "Funny" },
+                new Board { Name = "Off Topic" },
+                new Board { Name = "" },
+                new Board { Name = "" },
+                new Board { Name = "" },
+                new Board { Name = "" },
+                new Board { Name = "" },
+                new Board { Name = "" },
+                new Board { Name = "" }
+
+            );
 
         }
 

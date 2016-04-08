@@ -8,9 +8,10 @@ using forum.Models;
 namespace forum.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160408195813_start")]
+    partial class start
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
@@ -136,8 +137,6 @@ namespace forum.Migrations
                     b.Property<string>("CreatorId");
 
                     b.Property<bool>("Deleted");
-
-                    b.Property<float>("Heat");
 
                     b.Property<int>("ParentBoardId");
 

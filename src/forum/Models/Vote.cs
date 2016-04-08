@@ -10,13 +10,13 @@ namespace forum.Models
     {
         public int Id { get; set; }
 
-        public int VoterId { get; set; }
+        public string VoterId { get; set; }
         [ForeignKey("VoterId")]
         public ApplicationUser Voter { get; set; }
 
         public int TargetId { get; set; }
         [ForeignKey("TargetId")]
-        public ApplicationUser Target { get; set; }
+        public Voteable Target { get; set; }
 
         public bool isUpVote { get; set; }
     }

@@ -20,7 +20,7 @@ namespace forum.Services {
             var allClaims = JSON.parse(this.$window.sessionStorage.getItem('claims'));
             return allClaims ? allClaims[type] : null;
         }
-
+        
 
         public login(loginUser) {
             return this.$q((resolve, reject) => {

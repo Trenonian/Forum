@@ -44,6 +44,7 @@ namespace forum.Controllers
         {
             var user = await _userManager.FindByNameAsync(userName);
             var claims = await _userManager.GetClaimsAsync(user);
+            var roles = await _userManager.GetRolesAsync(user);
             var vm = new UserViewModel
             {
                 UserName = user.UserName,

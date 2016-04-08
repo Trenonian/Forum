@@ -7,8 +7,13 @@ namespace forum.Controllers {
             return this.accountService.getUserName();
         }
 
-        public getClaim(type) {
+        public get
+            (type) {
             return this.accountService.getClaim(type);
+        }
+
+        public getRole(role) {
+            
         }
 
         public isLoggedIn() {

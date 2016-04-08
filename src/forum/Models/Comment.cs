@@ -9,12 +9,16 @@ namespace forum.Models
 {
     public class Comment : Voteable
     {
-        public int ParentPostId { get; set; }
-        [ForeignKey("ParentPostId")]
-        public Post ParentPost { get; set; }
+        //public int ParentPostId { get; set; }
+        //[ForeignKey("ParentPostId")]
+        //public Post ParentPost { get; set; }
 
-        public int? ParentCommentId { get; set; }
-        [ForeignKey("ParentCommentId")]
-        public Comment ParentComment { get; set; }
+        //public int? ParentCommentId { get; set; }
+        //[ForeignKey("ParentCommentId")]
+        //public Comment ParentComment { get; set; }
+
+        public int ParentId { get; set; }
+        [ForeignKey("ParentId")]
+        public Voteable Parent { get; set; }
     }
 }

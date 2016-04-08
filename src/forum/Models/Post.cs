@@ -9,5 +9,6 @@ namespace forum.Models
     public class Post :Voteable
     {
         public string Title { get; set; }
+        public float Heat { get; set; }
     }
 }

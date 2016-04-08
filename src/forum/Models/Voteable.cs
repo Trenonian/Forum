@@ -12,7 +12,7 @@ namespace forum.Models
         [Key]
         public int Id { get; set; }
 
-        public int CreatorId { get; set; }
+        public string CreatorId { get; set; }
         [ForeignKey("CreatorId")]
         public ApplicationUser Creator { get; set; }
 
