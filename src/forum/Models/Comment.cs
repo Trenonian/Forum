@@ -7,18 +7,31 @@ using System.Threading.Tasks;
 
 namespace forum.Models
 {
-    public class Comment : Voteable
+    public class Comment
     {
-        //public int ParentPostId { get; set; }
-        //[ForeignKey("ParentPostId")]
-        //public Post ParentPost { get; set; }
+        [Key]
+        public int Id { get; set; }
 
-        //public int? ParentCommentId { get; set; }
-        //[ForeignKey("ParentCommentId")]
-        //public Comment ParentComment { get; set; }
+        public string CreatorId { get; set; }
+        [ForeignKey("CreatorId")]
+        public ApplicationUser Creator { get; set; }
 
-        public int ParentId { get; set; }
-        [ForeignKey("ParentId")]
-        public Voteable Parent { get; set; }
+        public DateTime Created { get; set; }
+        public bool Deleted { get; set; }
+        public string Content { get; set; }
+        public int Score { get; set; }
+        
+        public ICollection<Vote> Votes { get; set; }
+
+        public int ParentPostId { get; set; }
+        [ForeignKey("ParentPostId")]
+        public Post ParentPost { get; set; }
+
+        public int ParentCommentId { get; set; }
+        [ForeignKey("ParentCommentId")]
+        public Comment ParentComment { get; set; }
+
+        [InverseProperty("ParentComment")]
+        public ICollection<Comment> Comments { get; set; }
     }
 }

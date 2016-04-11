@@ -1,7 +1,17 @@
 namespace forum.Controllers {
 
     export class HomeController {
-        public message = 'Hello from the home page!';
+        public posts;
+
+        constructor(
+            private $http: ng.IHttpService,
+            private $state: ng.ui.IStateService
+        ) {
+            $http.get('api/posts/new')
+                .then((s) => {
+                    this.posts = s.data;
+                });
+        }
     }
 
 

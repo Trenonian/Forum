@@ -8,8 +8,8 @@ namespace forum.Services.Models
     public class VoteDTO
     {
         public int Id { get; set; }
-        public ApplicationUserDTO Voter { get; set; }
-        public ApplicationUserDTO Target { get; set; }
+        public string VoterId { get; set; }
+        public int TargetId { get; set; }
         public bool isUpVote { get; set; }
     }
 }

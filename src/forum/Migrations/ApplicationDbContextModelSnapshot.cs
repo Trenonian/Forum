@@ -85,8 +85,6 @@ namespace forum.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CommentId");
-
                     b.Property<string>("Content");
 
                     b.Property<DateTime>("Created");
@@ -95,31 +93,11 @@ namespace forum.Migrations
 
                     b.Property<bool>("Deleted");
 
-                    b.Property<int>("ParentBoardId");
+                    b.Property<int>("ParentCommentId");
 
-                    b.Property<int>("ParentId");
-
-                    b.Property<int?>("PostId");
+                    b.Property<int>("ParentPostId");
 
                     b.Property<int>("Score");
-
-                    b.HasKey("Id");
-                });
-
-            modelBuilder.Entity("forum.Models.Edit", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("CommentId");
-
-                    b.Property<string>("Content");
-
-                    b.Property<int>("ParentId");
-
-                    b.Property<int?>("PostId");
-
-                    b.Property<DateTime>("Time");
 
                     b.HasKey("Id");
                 });
@@ -137,11 +115,7 @@ namespace forum.Migrations
 
                     b.Property<bool>("Deleted");
 
-                    b.Property<float>("Heat");
-
                     b.Property<int>("ParentBoardId");
-
-                    b.Property<int>("Score");
 
                     b.Property<string>("Title");
 
@@ -177,35 +151,11 @@ namespace forum.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CommentId");
-
-                    b.Property<int?>("PostId");
-
                     b.Property<int>("TargetId");
 
                     b.Property<string>("VoterId");
 
                     b.Property<bool>("isUpVote");
-
-                    b.HasKey("Id");
-                });
-
-            modelBuilder.Entity("forum.Models.Voteable", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Content");
-
-                    b.Property<DateTime>("Created");
-
-                    b.Property<string>("CreatorId");
-
-                    b.Property<bool>("Deleted");
-
-                    b.Property<int>("ParentBoardId");
-
-                    b.Property<int>("Score");
 
                     b.HasKey("Id");
                 });
@@ -294,40 +244,17 @@ namespace forum.Migrations
 
             modelBuilder.Entity("forum.Models.Comment", b =>
                 {
-                    b.HasOne("forum.Models.Comment")
-                        .WithMany()
-                        .HasForeignKey("CommentId");
-
                     b.HasOne("forum.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("CreatorId");
 
-                    b.HasOne("forum.Models.Board")
-                        .WithMany()
-                        .HasForeignKey("ParentBoardId");
-
-                    b.HasOne("forum.Models.Voteable")
-                        .WithMany()
-                        .HasForeignKey("ParentId");
-
-                    b.HasOne("forum.Models.Post")
-                        .WithMany()
-                        .HasForeignKey("PostId");
-                });
-
-            modelBuilder.Entity("forum.Models.Edit", b =>
-                {
                     b.HasOne("forum.Models.Comment")
                         .WithMany()
-                        .HasForeignKey("CommentId");
-
-                    b.HasOne("forum.Models.Voteable")
-                        .WithMany()
-                        .HasForeignKey("ParentId");
+                        .HasForeignKey("ParentCommentId");
 
                     b.HasOne("forum.Models.Post")
                         .WithMany()
-                        .HasForeignKey("PostId");
+                        .HasForeignKey("ParentPostId");
                 });
 
             modelBuilder.Entity("forum.Models.Post", b =>
@@ -367,30 +294,11 @@ namespace forum.Migrations
                 {
                     b.HasOne("forum.Models.Comment")
                         .WithMany()
-                        .HasForeignKey("CommentId");
-
-                    b.HasOne("forum.Models.Post")
-                        .WithMany()
-                        .HasForeignKey("PostId");
-
-                    b.HasOne("forum.Models.Voteable")
-                        .WithMany()
                         .HasForeignKey("TargetId");
 
                     b.HasOne("forum.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("VoterId");
-                });
-
-            modelBuilder.Entity("forum.Models.Voteable", b =>
-                {
-                    b.HasOne("forum.Models.ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("CreatorId");
-
-                    b.HasOne("forum.Models.Board")
-                        .WithMany()
-                        .HasForeignKey("ParentBoardId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityRoleClaim<string>", b =>

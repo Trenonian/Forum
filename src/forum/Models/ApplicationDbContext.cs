@@ -32,12 +32,21 @@ namespace forum.Models
                 .WithMany(u => u.TaggedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Entity<Voteable>()
+            builder.Entity<Comment>()
                 .HasMany(v => v.Comments)
-                .WithOne(c => c.Parent)
+                .WithOne(c => c.ParentComment)
                 .OnDelete(DeleteBehavior.Cascade);
             builder.Entity<Comment>()
-                .HasOne(c => c.Parent)
+                .HasOne(c => c.ParentComment)
+                .WithMany(p => p.Comments)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Post>()
+                .HasMany(v => v.Comments)
+                .WithOne(c => c.ParentPost)
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Comment>()
+                .HasOne(c => c.ParentPost)
                 .WithMany(p => p.Comments)
                 .OnDelete(DeleteBehavior.Restrict);
 
@@ -55,7 +64,6 @@ namespace forum.Models
         public DbSet<UserRelations> UserRelationss { get; set; }
         public DbSet<Board> Boards { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<Edit> Edits { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Vote> Votes { get; set; }
         public DbSet<UserBoard> UserBoards { get; set; }

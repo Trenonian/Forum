@@ -11,7 +11,5 @@ namespace forum.ViewModels.Account
         public string UserName { get; set; }
 
         public Dictionary<string,string> Claims { get; set; }
-
-        public Dictionary<string,string> Roles { get; set; }
     }
 }

@@ -136,7 +136,6 @@ namespace forum.Migrations
                     CreatorId = table.Column<string>(nullable: true),
                     Deleted = table.Column<bool>(nullable: false),
                     ParentBoardId = table.Column<int>(nullable: false),
-                    Score = table.Column<int>(nullable: false),
                     Title = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -178,35 +177,6 @@ namespace forum.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-            migrationBuilder.CreateTable(
-                name: "Voteable",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Content = table.Column<string>(nullable: true),
-                    Created = table.Column<DateTime>(nullable: false),
-                    CreatorId = table.Column<string>(nullable: true),
-                    Deleted = table.Column<bool>(nullable: false),
-                    ParentBoardId = table.Column<int>(nullable: false),
-                    Score = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Voteable", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Voteable_ApplicationUser_CreatorId",
-                        column: x => x.CreatorId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Voteable_Board_ParentBoardId",
-                        column: x => x.ParentBoardId,
-                        principalTable: "Board",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
@@ -257,25 +227,17 @@ namespace forum.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CommentId = table.Column<int>(nullable: true),
                     Content = table.Column<string>(nullable: true),
                     Created = table.Column<DateTime>(nullable: false),
                     CreatorId = table.Column<string>(nullable: true),
                     Deleted = table.Column<bool>(nullable: false),
-                    ParentBoardId = table.Column<int>(nullable: false),
-                    ParentId = table.Column<int>(nullable: false),
-                    PostId = table.Column<int>(nullable: true),
+                    ParentCommentId = table.Column<int>(nullable: false),
+                    ParentPostId = table.Column<int>(nullable: false),
                     Score = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comment", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Comment_Comment_CommentId",
-                        column: x => x.CommentId,
-                        principalTable: "Comment",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Comment_ApplicationUser_CreatorId",
                         column: x => x.CreatorId,
@@ -283,54 +245,14 @@ namespace forum.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Comment_Board_ParentBoardId",
-                        column: x => x.ParentBoardId,
-                        principalTable: "Board",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Comment_Voteable_ParentId",
-                        column: x => x.ParentId,
-                        principalTable: "Voteable",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Comment_Post_PostId",
-                        column: x => x.PostId,
-                        principalTable: "Post",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-            migrationBuilder.CreateTable(
-                name: "Edit",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CommentId = table.Column<int>(nullable: true),
-                    Content = table.Column<string>(nullable: true),
-                    ParentId = table.Column<int>(nullable: false),
-                    PostId = table.Column<int>(nullable: true),
-                    Time = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Edit", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Edit_Comment_CommentId",
-                        column: x => x.CommentId,
+                        name: "FK_Comment_Comment_ParentCommentId",
+                        column: x => x.ParentCommentId,
                         principalTable: "Comment",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Edit_Voteable_ParentId",
-                        column: x => x.ParentId,
-                        principalTable: "Voteable",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Edit_Post_PostId",
-                        column: x => x.PostId,
+                        name: "FK_Comment_Post_ParentPostId",
+                        column: x => x.ParentPostId,
                         principalTable: "Post",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -341,8 +263,6 @@ namespace forum.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CommentId = table.Column<int>(nullable: true),
-                    PostId = table.Column<int>(nullable: true),
                     TargetId = table.Column<int>(nullable: false),
                     VoterId = table.Column<string>(nullable: true),
                     isUpVote = table.Column<bool>(nullable: false)
@@ -351,21 +271,9 @@ namespace forum.Migrations
                 {
                     table.PrimaryKey("PK_Vote", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Vote_Comment_CommentId",
-                        column: x => x.CommentId,
-                        principalTable: "Comment",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Vote_Post_PostId",
-                        column: x => x.PostId,
-                        principalTable: "Post",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Vote_Voteable_TargetId",
+                        name: "FK_Vote_Comment_TargetId",
                         column: x => x.TargetId,
-                        principalTable: "Voteable",
+                        principalTable: "Comment",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -391,7 +299,6 @@ namespace forum.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable("Edit");
             migrationBuilder.DropTable("UserBoard");
             migrationBuilder.DropTable("UserRelations");
             migrationBuilder.DropTable("Vote");
@@ -401,7 +308,6 @@ namespace forum.Migrations
             migrationBuilder.DropTable("AspNetUserRoles");
             migrationBuilder.DropTable("Comment");
             migrationBuilder.DropTable("AspNetRoles");
-            migrationBuilder.DropTable("Voteable");
             migrationBuilder.DropTable("Post");
             migrationBuilder.DropTable("AspNetUsers");
             migrationBuilder.DropTable("Board");

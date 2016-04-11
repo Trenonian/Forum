@@ -16,7 +16,7 @@ namespace forum.Models
 
         public int TargetId { get; set; }
         [ForeignKey("TargetId")]
-        public Voteable Target { get; set; }
+        public Comment Target { get; set; }
 
         public bool isUpVote { get; set; }
     }
