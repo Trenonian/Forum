@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using forum.Models;
 using forum.Services;
 using Newtonsoft.Json.Serialization;
+using forum.Infrastructure;
 
 namespace forum
 {
@@ -54,6 +55,15 @@ namespace forum
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddScoped<BoardService>();
+            services.AddScoped<PostService>();
+            services.AddScoped<CommentService>();
+            services.AddScoped<CommentRepository>();
+
+            // Repositories
+            services.AddScoped<BoardRepository>();
+            services.AddScoped<PostRepository>();
+            services.AddScoped<CommentRepository>();
 
             // convert Pascal to Camel
             services.AddMvc().AddJsonOptions(options => {

@@ -28,11 +28,11 @@ namespace forum.Controllers
             return Ok(boards);
         }
 
-        // GET api/boards/name
-        [HttpGet("{name}")]
-        public IActionResult GetBoardByName(string name)
+        // GET api/boards/boardName
+        [HttpGet("{boardName}")]
+        public IActionResult GetBoardByName(string boardName)
         {
-            BoardDTO board = _boardService.GetBoardByName(name);
+            BoardDTO board = _boardService.GetBoardByName(boardName);
             if (board == null)
             {
                 return HttpNotFound();

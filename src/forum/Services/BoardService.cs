@@ -28,8 +28,9 @@ namespace forum.Services
                     Creator = new ApplicationUserDTO
                     {
                         UserName = p.Creator.UserName
-                    }
-                }).ToList()
+                    },
+                    Id = p.Id
+                }).OrderByDescending(p => p.Created).Take(5).ToList()
             }).ToList();
         }
 
@@ -44,7 +45,8 @@ namespace forum.Services
                     Creator = new ApplicationUserDTO
                     {
                         UserName = p.Creator.UserName
-                    }
+                    },
+                    Id = p.Id
                 }).ToList()
             }).FirstOrDefault();
         }

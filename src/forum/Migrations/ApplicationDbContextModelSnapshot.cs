@@ -93,7 +93,7 @@ namespace forum.Migrations
 
                     b.Property<bool>("Deleted");
 
-                    b.Property<int>("ParentCommentId");
+                    b.Property<int?>("ParentCommentId");
 
                     b.Property<int>("ParentPostId");
 

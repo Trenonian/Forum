@@ -298,12 +298,11 @@ namespace forum.Models
                 new Comment
                 {
                     Creator = db.Users.First(u => u.UserName == "samurai"),
-                    Content = "Through discipline we grow stronger",
+                    Content = "Through discipline we grow stronger.",
                     ParentPost = db.Posts.First(p => p.Title == "Sample Data"),
                     Created = new DateTime(2015, 12, 1, 3, 0, 0)
                 },
                 #endregion
-                
                 #region Template: User, Content, PostOrComment
                 //Comment Ctemplate = new Comment
                 //{
@@ -315,6 +314,7 @@ namespace forum.Models
                 #endregion
             };
             #endregion
+
             #region Check for and add Comments
             for (int i = 0; i < comments.Count; i++)
             {
@@ -327,31 +327,18 @@ namespace forum.Models
             }
             db.SaveChanges();
             #endregion
-
             #region Child Comments
-            comments.AddRange( new List<Comment>() { 
-                #region FlowerPower, What does that mean, Through discipline
-                    new Comment
-                    {
-                        Creator = db.Users.First(u => u.UserName == "FlowerPower"),
-                        Content = "What does that mean?!",
-                        ParentComment = comments.First(c => c.Content == "Through discipline"),
-                        Created = new DateTime(2015, 12, 1, 4, 0, 0)
-                    },
-                #endregion
-                #region samurai, idk, What does that mean
-                    new Comment
-                    {
-                        Creator = db.Users.First(u => u.UserName == "samurai"),
-                        Content = "idk",
-                        ParentComment = comments.First(c => c.Content == "What does that mean"),
-                        Created = new DateTime(2015, 12, 1, 5, 0, 0)
-                    }
-                #endregion
+            #region FlowerPower, What does that mean, Through discipline
+            comments.Add(
+                new Comment
+                {
+                    Creator = db.Users.First(u => u.UserName == "FlowerPower"),
+                    Content = "What does that mean?!",
+                    ParentPost = db.Posts.First(p => p.Title == "Sample Data"),
+                    ParentComment = comments.First(c => c.Content == "Through discipline we grow stronger."),
+                    Created = new DateTime(2015, 12, 1, 4, 0, 0)
                 }
             );
-            #endregion
-            #region Check for and add Comments
             for (int i = 0; i < comments.Count; i++)
             {
                 var dbComment = db.Comments.FirstOrDefault(c => c.Content == comments[i].Content);
@@ -362,6 +349,29 @@ namespace forum.Models
                 }
             }
             db.SaveChanges();
+            #endregion
+            #region samurai, idk, What does that mean
+            comments.Add(
+                new Comment
+                {
+                    Creator = db.Users.First(u => u.UserName == "samurai"),
+                    Content = "idk",
+                    ParentPost = db.Posts.First(p => p.Title == "Sample Data"),
+                    ParentComment = comments.First(c => c.Content == "What does that mean?!"),
+                    Created = new DateTime(2015, 12, 1, 5, 0, 0)
+                }
+            );
+            for (int i = 0; i < comments.Count; i++)
+            {
+                var dbComment = db.Comments.FirstOrDefault(c => c.Content == comments[i].Content);
+                comments[i] = dbComment ?? comments[i];
+                if (dbComment != comments[i])
+                {
+                    db.Comments.Add(comments[i]);
+                }
+            }
+            db.SaveChanges();
+            #endregion
             #endregion
 
             #region Non-admin sample users automatically upvote all comments made by non-admin sample users
@@ -372,18 +382,19 @@ namespace forum.Models
                     u.UserName == "jimmy" || 
                     u.UserName == "samurai" || 
                     u.UserName == "FlowerPower"
-                ).ToList();
-            foreach (ApplicationUser bot in bots)
+                ).Select(u => u).ToList();
+            foreach (Comment comment in comments)
             {
-                foreach (Comment comment in comments)
+                foreach (ApplicationUser bot in bots)
                 {
-                    Vote vote = db.Votes.FirstOrDefault(v => v.Voter == bot && v.Target == comment);
+                    Vote vote = db.Votes.FirstOrDefault(v => (v.Voter.Id == bot.Id) && (v.Target.Id == comment.Id));
 
                     if (vote == null)
                     {
                         db.Votes.Add(new Vote { Voter = bot, Target = comment, isUpVote = true });
                     }
                 }
+                comment.Score = comment.Votes.Where(v => v.isUpVote).Count() - comment.Votes.Where(v => v.isUpVote == false).Count();
             }
             db.SaveChanges();
             #endregion

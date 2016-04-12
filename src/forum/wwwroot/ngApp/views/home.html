@@ -1,6 +1,14 @@
-<h2>Home</h2>
-<p>
-    {{controller.message}}
-</p>
+<h2>All Boards</h2>
 
-<h2>Newest Posts</h2>
+<ul>
+    <li ng-repeat="board in controller.boards">
+        <h3>
+            <a ui-sref="board({boardName: board.name})">{{board.name}}</a>
+        </h3>
+        <ul>
+            <li ng-repeat="post in board.posts">
+                <a ui-sref="board.post({boardName: board.name, postId: post.id})">{{post.title}} - {{post.creator.userName}}</a>
+            </li>
+        </ul>
+    </li>
+</ul>

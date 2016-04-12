@@ -8,7 +8,7 @@ using forum.Models;
 namespace forum.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160411204907_start")]
+    [Migration("20160412144018_start")]
     partial class start
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,7 +94,7 @@ namespace forum.Migrations
 
                     b.Property<bool>("Deleted");
 
-                    b.Property<int>("ParentCommentId");
+                    b.Property<int?>("ParentCommentId");
 
                     b.Property<int>("ParentPostId");
 

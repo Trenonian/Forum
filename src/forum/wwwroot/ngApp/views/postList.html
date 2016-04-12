@@ -1,0 +1,5 @@
+﻿<ul>
+    <li ng-repeat="post in boardController.board.posts">
+        <a ui-sref="board.post({boardName:boardController.board.name, postId:post.id})">{{post.title}}</a>
+    </li>
+</ul>

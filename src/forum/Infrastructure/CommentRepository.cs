@@ -11,18 +11,25 @@ namespace forum.Infrastructure
     {
         public CommentRepository(ApplicationDbContext db) : base(db) { }
 
-        public IQueryable<Comment> GetCompleteCommentTreeFromId(int id, bool isComment)
+        public IQueryable<Comment> GetCommentById(int id)
         {
-            IQueryable<Comment> level;
-            if (isComment)
-            {
-                level = _db.Comments.Where(c => c.ParentCommentId == id);
-            }
-            else
-            {
-                level = _db.Comments.Where(c => c.ParentPostId == id);
-            }
-            IQueryable<Comment> complete =  level.Select(nest => new Comment
+            return _db.Comments.Where(c => c.ParentPostId == id);
+        }
+
+        public bool CheckIfCommentExistsById(int id)
+        {
+            return _db.Comments.Any(c => c.Id == id);
+        }
+
+        public IQueryable<Comment> GetAllImmediateChildCommentsFromPostById(int id)
+        {
+            return _db.Comments.Where(c => c.ParentPostId == id && c.ParentComment == null);
+        }
+
+        public IQueryable<Comment> GetCompleteCommentTreeFromPostId(int id)
+        {
+            IQueryable<Comment> level = GetAllImmediateChildCommentsFromPostById(id);
+            IQueryable<Comment> complete = level.Select(nest => new Comment
             {
                 Content = nest.Content,
                 Created = nest.Created,
@@ -36,9 +43,36 @@ namespace forum.Infrastructure
                 ParentPostId = nest.ParentPostId,
                 Score = nest.Score,
                 Votes = nest.Votes,
-                Comments = GetCompleteCommentTreeFromId(nest.Id, true).ToList()
+                Comments = GetCommentsFromCommentId(nest).ToList()
             });
+
             return complete;
         }
+
+        public IQueryable<Comment> GetCommentsFromCommentId(Comment comment)
+        {
+            if (!comment.Comments.Any())
+            {
+                return null;
+            }
+
+            return comment.Comments.Select(nest => new Comment
+            {
+                Content = nest.Content,
+                Created = nest.Created,
+                CreatorId = nest.CreatorId,
+                Creator = nest.Creator,
+                Deleted = nest.Deleted,
+                Id = nest.Id,
+                ParentComment = nest.ParentComment,
+                ParentCommentId = nest.ParentCommentId,
+                ParentPost = nest.ParentPost,
+                ParentPostId = nest.ParentPostId,
+                Score = nest.Score,
+                Votes = nest.Votes,
+                Comments = GetCommentsFromCommentId(nest).ToList()
+            }).AsQueryable();
+        }
+
     }
 }

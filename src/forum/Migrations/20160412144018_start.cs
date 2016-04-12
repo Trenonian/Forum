@@ -231,7 +231,7 @@ namespace forum.Migrations
                     Created = table.Column<DateTime>(nullable: false),
                     CreatorId = table.Column<string>(nullable: true),
                     Deleted = table.Column<bool>(nullable: false),
-                    ParentCommentId = table.Column<int>(nullable: false),
+                    ParentCommentId = table.Column<int>(nullable: true),
                     ParentPostId = table.Column<int>(nullable: false),
                     Score = table.Column<int>(nullable: false)
                 },

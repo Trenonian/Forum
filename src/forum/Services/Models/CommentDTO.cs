@@ -9,7 +9,8 @@ namespace forum.Services.Models
     {
         public int Id { get; set; }
         public PostDTO ParentPost { get; set; }
-
+        
+        public int? ParentCommentId { get; set; }
         public CommentDTO ParentComment { get; set; }
 
         public ApplicationUserDTO Creator { get; set; }

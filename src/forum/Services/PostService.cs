@@ -1,4 +1,5 @@
 ﻿using forum.Infrastructure;
+using forum.Models;
 using forum.Services.Models;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,9 @@ namespace forum.Services
     {
         private PostRepository _postRepo;
 
-        private CommentTreeService _commentTreeService;
+        private CommentService _commentTreeService;
 
-        public PostService(PostRepository postRepo, CommentTreeService commentTreeService)
+        public PostService(PostRepository postRepo, CommentService commentTreeService)
         {
             _postRepo = postRepo;
             _commentTreeService = commentTreeService;
@@ -34,7 +35,8 @@ namespace forum.Services
                 Board = new BoardDTO
                 {
                     Name = p.ParentBoard.Name
-                }
+                },
+                Id = p.Id
             }).ToList();
         }
 
@@ -42,6 +44,7 @@ namespace forum.Services
         {
             return _postRepo.GetPostById(id).Select(p => new PostDTO
             {
+                Id = p.Id,
                 Title = p.Title,
                 Content = p.Content,
                 Created = p.Created,
@@ -54,8 +57,21 @@ namespace forum.Services
                 {
                     Name = p.ParentBoard.Name
                 },
-                Comments = _commentTreeService.GetCompleteCommentTree(p.Id, false)
+                Comments = _commentTreeService.GetCompleteCommentTreeFromPostId(p.Id)
             }).FirstOrDefault();
+        }
+
+        public void CreateNewPost(PostDTO newPostDTO)
+        {
+            Post newPost = new Post
+            {
+                Content = newPostDTO.Content,
+                Created = newPostDTO.Created,
+                CreatorId = newPostDTO.Creator.Id,
+                ParentBoardId = newPostDTO.Board.Id,
+                Title = newPostDTO.Title
+            };
+            _postRepo.Add(newPost);
         }
     }
 }

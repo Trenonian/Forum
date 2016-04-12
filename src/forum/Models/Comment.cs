@@ -27,7 +27,7 @@ namespace forum.Models
         [ForeignKey("ParentPostId")]
         public Post ParentPost { get; set; }
 
-        public int ParentCommentId { get; set; }
+        public int? ParentCommentId { get; set; }
         [ForeignKey("ParentCommentId")]
         public Comment ParentComment { get; set; }
 

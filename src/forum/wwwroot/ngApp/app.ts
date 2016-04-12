@@ -13,6 +13,27 @@ namespace forum {
                 controller: forum.Controllers.HomeController,
                 controllerAs: 'controller'
             })
+            .state('board', {
+                url: '/b/:boardName',
+                abstract: true,
+                templateUrl: '/ngApp/views/board.html',
+                controller: forum.Controllers.BoardController,
+                controllerAs: 'boardController'
+            })
+            .state('board.list', {
+                url: '',
+                parent: 'board',
+                templateUrl: '/ngApp/views/postList.html',
+                controller: forum.Controllers.PostController,
+                controllerAs: 'postListController'
+            })
+            .state('board.post', {
+                url: '/:postId',
+                parent: 'board',
+                templateUrl: '/ngApp/views/post.html',
+                controller: forum.Controllers.PostController,
+                controllerAs: 'postController'
+            })
             .state('secret', {
                 url: '/secret',
                 templateUrl: '/ngApp/views/secret.html',
