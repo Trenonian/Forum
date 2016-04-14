@@ -3,7 +3,7 @@
 <ul>
     <li ng-repeat="board in controller.boards">
         <h3>
-            <a ui-sref="board({boardName: board.name})">{{board.name}}</a>
+            <a ui-sref="board.list({boardName: board.name})">{{board.name}}</a>
         </h3>
         <ul>
             <li ng-repeat="post in board.posts">

@@ -40,9 +40,9 @@ namespace forum.Services
             }).ToList();
         }
 
-        public PostDTO GetPostById(int id)
+        public PostDTO GetPostById(string boardName, int postId)
         {
-            return _postRepo.GetPostById(id).Select(p => new PostDTO
+            return _postRepo.GetPostById(boardName, postId).Select(p => new PostDTO
             {
                 Id = p.Id,
                 Title = p.Title,

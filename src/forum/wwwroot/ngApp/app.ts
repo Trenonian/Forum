@@ -23,9 +23,7 @@ namespace forum {
             .state('board.list', {
                 url: '',
                 parent: 'board',
-                templateUrl: '/ngApp/views/postList.html',
-                controller: forum.Controllers.PostController,
-                controllerAs: 'postListController'
+                templateUrl: '/ngApp/views/postList.html'
             })
             .state('board.post', {
                 url: '/:postId',

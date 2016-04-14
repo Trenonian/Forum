@@ -29,10 +29,10 @@ namespace forum.Controllers
         }
 
         // GET api/posts/boardName/postId
-        [HttpGet("{postId}")]
-        public IActionResult Get(int postId)
+        [HttpGet("{boardName}/{postId}")]
+        public IActionResult Get(string boardName, int postId)
         {
-            PostDTO post = _postService.GetPostById(postId);
+            PostDTO post = _postService.GetPostById(boardName,postId);
 
             if (post == null)
             {

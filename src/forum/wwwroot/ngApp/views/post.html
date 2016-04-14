@@ -1,2 +1,56 @@
-﻿<h3>Post</h3>
-{{postController.post}}
+﻿<div class="post">
+    <h3>{{postController.post.title}}</h3>
+    <div class="creator">
+        {{postController.post.creator.userName}}
+    </div>
+    <div class="created">
+        Created: {{postController.post.created | date:'MMM d, yyyy'}}
+    </div>
+    <div class="content">
+        {{postController.post.content}}
+    </div>
+    <div class="comments">
+        <ul class="commentList">
+            <li ng-repeat="comment in postController.post.comments | orderBy:'-score'" ng-include="'commentTree'"></li>
+        </ul>
+    </div>
+</div>
+
+<script type="text/ng-template" id="commentTree">
+    <div class="commentHeader">
+        <p>
+            {{comment.creator.userName}}
+        </p>
+        <p>
+            Score: {{comment.score}}
+        </p>
+        <div ng-if="!comment.hideVoting">
+            <div class="vote upvote glyphicon glyphicon-arrow-up" ng-click="comment.upVote(comment)" ng-style="comment.upStyle"></div>
+            <div class="vote downvote glyphicon glyphicon-arrow-down" ng-click="comment.downVote(comment)" ng-style="comment.downStyle"></div>
+        </div>
+    </div>
+    <div class="commentBody">
+        <p>
+            {{comment.content}}
+        </p>
+        <p>
+            {{comment.creator.signature}}
+        </p>
+    </div>
+    <div ng-if="account.getUserName() == comment.creator.userName" ng-click="postController.editComment(comment)">
+        Edit
+    </div>
+    <div ng-if="comment.editing">
+        {{comment.editedContent}}
+        <form ng-submit="postController.saveChanges(comment)">
+            <input type="text" ng-model="comment.editedContent" />
+        </form>
+        <p class="commentEditError" ng-show="comment.error">
+            {{comment.error}}
+        </p>
+    </div>
+    <ul ng-if="comment.comments">
+        <li ng-repeat="comment in comment.comments | orderBy:'-score'" ng-include="'commentTree'">
+        </li>
+    </ul>
+</script>

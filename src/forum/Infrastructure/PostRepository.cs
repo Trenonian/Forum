@@ -12,9 +12,9 @@ namespace forum.Infrastructure
     {
         public PostRepository(ApplicationDbContext db) : base(db) { }
 
-        public IQueryable<Post> GetPostById(int id)
+        public IQueryable<Post> GetPostById(string boardName, int postId)
         {
-            return _db.Posts.Where(p => p.Id == id);
+            return _db.Posts.Where(p => p.ParentBoard.Name == boardName && p.Id == postId);
         }
     }
 }

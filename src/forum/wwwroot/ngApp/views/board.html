@@ -1,2 +1,4 @@
-﻿<h3>{{boardController.board.name}}</h3>
+﻿<h3>
+    <a ui-sref="board.list({boardName:boardController.board.name})">{{boardController.board.name}}</a>
+</h3>
 <ui-view></ui-view>

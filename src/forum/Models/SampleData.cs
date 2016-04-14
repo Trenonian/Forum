@@ -114,12 +114,12 @@ namespace forum.Models
             //#endregion
             #endregion
             #endregion
-            #region Boards: HTML, CSS, C#, Javascript, Random
+            #region Boards: HTML, CSS, CSharp, Javascript, Random
             List<Board> boards = new List<Board>() {
-                #region HTML, CSS, C#, Javascript, Random
+                #region HTML, CSS, CSharp, Javascript, Random
                 new Board { Name = "HTML" },
                 new Board { Name = "CSS" },
-                new Board { Name = "C#" },
+                new Board { Name = "CSharp" },
                 new Board { Name = "Javascript" },
                 new Board { Name = "Random" }
                 #endregion
@@ -169,10 +169,10 @@ namespace forum.Models
                 Creator = db.Users.First(u => u.UserName == "lumberjack")
             },
             #endregion
-            #region C# : FlowerPower : Sample Data
+            #region CSharp : FlowerPower : Sample Data
             new Post
             {
-                ParentBoard = db.Boards.First(b => b.Name == "C#"),
+                ParentBoard = db.Boards.First(b => b.Name == "CSharp"),
                 Title = "Sample Data",
                 Content = "It takes forever to populate the sample data...",
                 Created = new DateTime(2015, 4, 1, 0, 0, 0),
@@ -229,10 +229,10 @@ namespace forum.Models
                 Creator = db.Users.First(u => u.UserName == "lumberjack")
             },
             #endregion
-            #region C# : FlowerPower : Access Modifiers
+            #region CSharp : FlowerPower : Access Modifiers
             new Post
             {
-                ParentBoard = db.Boards.First(b => b.Name == "C#"),
+                ParentBoard = db.Boards.First(b => b.Name == "CSharp"),
                 Title = "Access Modifiers",
                 Content = "When should I use private? What about protected?",
                 Created = new DateTime(2016, 10, 1, 0, 0, 0),

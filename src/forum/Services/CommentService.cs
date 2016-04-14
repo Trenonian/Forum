@@ -42,5 +42,11 @@ namespace forum.Services
             return comments.Where(c => !c.ParentCommentId.HasValue).OrderByDescending(c => c.Score).ToList();
         }
 
+        public void UpdateCommentContent(int id, string updatedContent)
+        {
+            _commentRepo.UpdateComment(id, updatedContent);
+            _commentRepo.SaveChanges();
+        }
+
     }
 }
