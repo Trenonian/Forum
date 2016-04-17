@@ -41,7 +41,6 @@
         Edit
     </div>
     <div ng-if="comment.editing">
-        {{comment.editedContent}}
         <form ng-submit="postController.saveChanges(comment)">
             <input type="text" ng-model="comment.editedContent" />
         </form>
@@ -59,6 +58,11 @@
         <p class="commentReplyError" ng-show="comment.replyError">
             {{comment.replyError}}
         </p>
+    </div>
+    <div ng-if="comment.replying">
+        <form ng-submit="postController.reply(comment)">
+            <input type="text" ng-model="comment."
+        </form>
     </div>
     <ul ng-if="comment.comments">
         <li ng-repeat="comment in comment.comments | orderBy:'-score'" ng-include="'commentTree'">
