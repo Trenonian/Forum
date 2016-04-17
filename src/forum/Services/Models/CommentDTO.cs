@@ -8,11 +8,14 @@ namespace forum.Services.Models
     public class CommentDTO
     {
         public int Id { get; set; }
+
+        public int ParentPostId { get; set; }
         public PostDTO ParentPost { get; set; }
         
         public int? ParentCommentId { get; set; }
         public CommentDTO ParentComment { get; set; }
 
+        public string CreatorId { get; set; }
         public ApplicationUserDTO Creator { get; set; }
         public BoardDTO ParentBoard { get; set; }
         public DateTime Created { get; set; }

@@ -46,7 +46,18 @@
             <input type="text" ng-model="comment.editedContent" />
         </form>
         <p class="commentEditError" ng-show="comment.error">
-            {{comment.error}}
+            {{comment.editError}}
+        </p>
+    </div>
+    <div ng-show="account.getUserName()" ng-click="postController.reply(comment)">
+        Reply
+    </div>
+    <div ng-if="comment.replying">
+        <form ng-submit="postController.submitReply(comment)">
+            <input type="text" ng-model="comment.reply" />
+        </form>
+        <p class="commentReplyError" ng-show="comment.replyError">
+            {{comment.replyError}}
         </p>
     </div>
     <ul ng-if="comment.comments">

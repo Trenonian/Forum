@@ -52,17 +52,47 @@ namespace forum.Controllers {
         }
 
         public saveChanges(comment) {
-            console.log(`content: ${comment.editedContent}`);
-            if (comment.creator.userName == this.accountService.getUserName()) {
+            if (comment.creator.userName == this.accountService.getUserName() && comment.editing) {
                 this.$http.put(`/api/comments/${comment.id}`, `"${comment.editedContent}"`)
                     .then((s) => {
                         comment.editing = false;
                         comment.content = comment.editedContent;
                         comment.editedContent = null;
-                        comment.error = null;
+                        comment.editError = null;
                     })
                     .catch((e) => {
-                        comment.error = "Could not edit comment.";
+                        comment.editError = "Could not edit comment.";
+                    });
+            }
+        }
+
+        public reply(comment) {
+            if (this.accountService.getUserName() && !comment.replying) {
+                comment.replying = true;
+                comment.reply = "";
+            }
+            else {
+                comment.replying = false;
+                comment.reply = null;
+            }
+        }
+
+        public submitReply(comment) {
+            if (this.accountService.getUserName() && comment.replying) {
+                var reply:any = {};
+                reply.creatorId = this.accountService.getUserName();
+                reply.content = comment.reply;
+                reply.created = Date.now;
+                reply.parentPostId = this.post.id;
+                this.$http.post(`/api/comments/${comment.id}`, reply)
+                    .then((s) => {
+                        comment.replying = false;
+                        comment.reply = null;
+                        comment.replyError = null;
+                        reply = null;
+                    })
+                    .catch((e) => {
+                        comment.replyError = "Could not reply to comment.";
                     });
             }
         }

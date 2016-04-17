@@ -47,6 +47,23 @@ namespace forum.Services
             _commentRepo.UpdateComment(id, updatedContent);
             _commentRepo.SaveChanges();
         }
+        
+        public bool CheckIfCommentExistsById(int id)
+        {
+            return _commentRepo.CheckIfCommentExistsById(id);
+        }
 
+        public void AddComment(CommentDTO newCommentDTO)
+        {
+            Comment newComment = new Comment
+            {
+                Content = newCommentDTO.Content,
+                ParentCommentId = newCommentDTO.ParentCommentId,
+                ParentPostId = newCommentDTO.ParentPostId,
+                CreatorId = newCommentDTO.CreatorId
+            };
+
+            _commentRepo.Add(newComment);
+        }
     }
 }

@@ -14,16 +14,38 @@ namespace forum.Controllers
     public class CommentsController : Controller
     {
         private CommentService _commentService;
+        private ApplicationUserService _userService;
 
-        public CommentsController(CommentService commentService)
+        public CommentsController(CommentService commentService, ApplicationUserService userService)
         {
             _commentService = commentService;
         }
 
-        // POST api/comments
-        [HttpPost]
-        public IActionResult Post([FromBody]CommentDTO newComment)
+        // POST api/comments/5
+        [HttpPost("{id}")]
+        public IActionResult Post(int id, [FromBody]Reply reply)
         {
+            CommentDTO comment = new CommentDTO
+            {
+                Content = reply.Content,
+                Created = reply.Created,
+                ParentCommentId = id,
+                CreatorId = _userService.GetUserIdFromName(reply.CreatorId),
+                ParentPostId = reply.parentPostId
+            };
+
+            if (!_commentService.CheckIfCommentExistsById(id))
+            {
+                return HttpNotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return HttpBadRequest(ModelState);
+            }
+
+            _commentService.AddComment(comment);
+
             return Ok();
         }
 
